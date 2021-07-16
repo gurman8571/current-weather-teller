@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <title>Document</title>
+</head>
+
+<body>
+      <p class="name"></p> 
+    <div class="class">
+
+        <input type="text" name="" class="city" placeholder="enter a city">
+        <br>
+        <br>
+        <button type="button" class="btn btn-success" id="submit">Get Current Temperature</button>
+   
+        
+
+    </div>
+    <div class="display">
+
+       
+       
+        <p class="temp"></p>
+        <p class="feels"></p>
+        <p class="desc"></p>
+        <p class="max"></p>
+       
+        <p class="humid"></p>
+        <p class="wind"></p>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  var city=document.querySelector('.city')
+  var nameofcity=document.querySelector('.name')
+  var temp=document.querySelector('.temp')
+  var temp_min=document.querySelector('.desc')
+  var temp_max=document.querySelector('.max')
+  var feels_like=document.querySelector('.feels')
+  
+  var humid=document.querySelector('.humid')
+  var wind=document.querySelector('.wind');
+  var div=document.querySelector('.display')
+  
+ $("#submit").click(function () {
+   
+    fetch('https://api.openweathermap.org/data/2.5/weather?q='+city.value+'&units=metric&appid=0df0791b90d23a3c50eb1128f22448cf')
+    .then(response=>response.json())  // CONVERTDATA IN JSON FORMAT//
+.then(data=>{
+    var name=data['name'];
+    var temperaure=data['main']['temp'] ;    /*     GETTING API DATA*/
+    var min=data['main'] ['temp_min'];
+    var max=data['main']['temp_max'];
+    var feels=data['main']['feels_like'];                 
+    var humidity=data['main']['humidity'];
+    var windspeed=data['wind']['speed'];
+    nameofcity.innerHTML=`${name}`;
+temp.innerHTML=` temperature: ${temperaure}  c`;
+temp_min.innerHTML=` min temperature: ${min} c `;
+temp_max.innerHTML=` max temperature: ${max} c `;
+feels_like.innerHTML=`feels like: ${feels}   c `;
+humid.innerHTML=`humidity: ${humidity}% `;
+wind.innerHTML=`wind speed: ${windspeed} m/s `;
+
+})                                                                           
+
+.catch(err =>{div.innerHTML="NO SUCH CITY EXISTS CHECK YOUR SPELLINGS"}) //IF WRONG CITY ENTERED//
+});
+
+</script>
+
+</html>
